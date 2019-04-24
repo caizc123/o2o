@@ -8,7 +8,15 @@ public class Area {
     private Integer priority;//权重
     private Date createTime;
     private Date lastEditTime;
+    private String areaDesc;
     
+    
+	public String getAreaDesc() {
+		return areaDesc;
+	}
+	public void setAreaDesc(String areaDesc) {
+		this.areaDesc = areaDesc;
+	}
 	public Integer getAreaId() {
 		return areaId;
 	}

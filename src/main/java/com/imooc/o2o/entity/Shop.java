@@ -1,17 +1,17 @@
 package com.imooc.o2o.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Shop {
 	private Long shopId;
-	private Long ownerId;
-	private Long shopCategoryId;
+/*	private Long ownerId;
+	private Long shopCategoryId;*/
 	private String shopName;
 	private String shopDesc;
 	private String shopAddr;
 	private String phone;
 	private String shopImg;
-	private Double longitude;
+//	private Double longitude;
 //	private Double latitude;
 	private Integer priority;
 	private Date createTime;
@@ -26,7 +26,7 @@ public class Shop {
 	private ShopCategory shopCategory;
 	private PersonInfo owner;//这个店铺是谁创建的
 	
-	private ShopCategory parentCategory;
+//	private ShopCategory parentCategory;
 
 	public Long getShopId() {
 		return shopId;
@@ -44,7 +44,7 @@ public class Shop {
 		this.shopId = shopId;
 	}
 
-	public Long getOwnerId() {
+/*	public Long getOwnerId() {
 		return ownerId;
 	}
 
@@ -58,7 +58,7 @@ public class Shop {
 
 	public void setShopCategoryId(Long shopCategoryId) {
 		this.shopCategoryId = shopCategoryId;
-	}
+	}*/
 
 	public String getShopName() {
 		return shopName;
@@ -100,13 +100,13 @@ public class Shop {
 		this.shopImg = shopImg;
 	}
 
-	public Double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
+//	public Double getLongitude() {
+//		return longitude;
+//	}
+//
+//	public void setLongitude(Double longitude) {
+//		this.longitude = longitude;
+//	}
 
 /*	public Double getLatitude() {
 		return latitude;
@@ -128,8 +128,8 @@ public class Shop {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreateTime(Date date) {
+		this.createTime = date;
 	}
 
 	public Date getLastEditTime() {
@@ -184,12 +184,12 @@ public class Shop {
 		return "[shopId=" + shopId + ", shopName=" + shopName + "]";
 	}
 
-	public ShopCategory getParentCategory() {
-		return parentCategory;
-	}
-
-	public void setParentCategory(ShopCategory parentCategory) {
-		this.parentCategory = parentCategory;
-	}
+//	public ShopCategory getParentCategory() {
+//		return parentCategory;
+//	}
+//
+//	public void setParentCategory(ShopCategory parentCategory) {
+//		this.parentCategory = parentCategory;
+//	}
 
 }

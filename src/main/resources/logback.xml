@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false"><!-- 如果这里debug设置为true的话就会打印到logback内部的信息，因为logback很稳定，所以不需要打印出logback内部的日志 -->
+	<!-- 定义参数常量 -->
+	<!-- TRACE<DEBUG<INFO<WARN<ERROR ,级别从左到右逐渐，级别逐渐增大-->
+	<!-- logger.trace("msg")<logger.debug<.... -->
+	<property name="log.level" value="debug" /><!-- 定义为debug的话，那么级别比它低的是不能使用，这里只能用debug，info，warn，error -->
+	<property name="log.maxHistory" value="30"/><!-- 全局变量，定义保存的最大时间,在这里30表示保留30天 -->
+	<property name="log.filePath" value="${catalina.base}/logs/webapps"/><!-- 定义日志保存的根目录， catalina.base保存着tomcat实例的根目录-->
+	<property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}[%thread]%-5level%logger{50}-%msg%n"/><!-- 日志的输出格式 -->
+	
+	<!-- 在控制台设置 -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender"><!-- 将消息打印到控制台 -->
+		<encoder><!-- 作用类似于layout layout是将event事件转换成字符串，encoder是将event事件转换成一组byte数组(字符串)，并将转换后的字节数据输出到相应的文件中-->
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- DEBUG -->
+	<appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"><!-- 按天或按月来生成新的日志文件 -->
+		<!-- 文件路径 -->
+		<file>${log.filePath}/debug.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"><!-- 基于时间滚动的滚动策略 -->
+			<!-- 按天滚动 -->
+			<!-- 文件名称 -->
+			<fileNamePattern>${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<!-- 文件最大保存历史数量 -->
+			<maxHistory>${log.maxHistory}</maxHistory>
+		</rollingPolicy>
+		<encoder><!-- 作用类似于layout layout是将event事件转换成字符串，encoder是将event事件转换成一组byte数组，并将转换后的字节数据输出到相应的文件中-->
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<!-- 只保留debug相关的信息 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 过滤掉不是debug level的数据 -->
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch><!-- 匹配就保留下来 -->
+			<onMismatch>DENY</onMismatch><!-- 不是就deny否定掉，也就是过滤掉 -->
+		</filter>
+	</appender>
+	
+	<!-- INFO -->
+	<appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"><!-- 按天或按月来生成新的日志文件 -->
+		<!-- 文件路径 -->
+		<file>${log.filePath}/info.log</file><!-- info.log文件到了一定时间后就分裂出一些其他的子文件，就要用到滚动策略，如下： -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 按天滚动 -->
+			<!-- 文件名称 -->
+			<fileNamePattern>${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<!-- 文件最大保存历史数量 -->
+			<maxHistory>${log.maxHistory}</maxHistory>
+		</rollingPolicy><!-- 基于时间滚动的滚动策略 -->
+		<encoder><!-- 作用类似于layout layout是将event事件转换成字符串，encoder是将event事件转换成一组byte数组，并将转换后的字节数据输出到相应的文件中-->
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<!-- 只保留debug相关的信息 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 过滤掉不是debug level的数据 -->
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch><!-- 匹配就保留下来 -->
+			<onMismatch>DENY</onMismatch><!-- 不是就deny否定掉，也就是过滤掉 -->
+		</filter>
+	</appender>
+	
+	<!-- ERROR -->
+	<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"><!-- 按天或按月来生成新的日志文件 -->
+		<!-- 文件路径 -->
+		<file>${log.filePath}/error.log</file><!-- info.log文件到了一定时间后就分裂出一些其他的子文件，就要用到滚动策略，如下： -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 按天滚动 -->
+			<!-- 文件名称 -->
+			<fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<!-- 文件最大保存历史数量 -->
+			<maxHistory>${log.maxHistory}</maxHistory>
+		</rollingPolicy><!-- 基于时间滚动的滚动策略 -->
+		<encoder><!-- 作用类似于layout layout是将event事件转换成字符串，encoder是将event事件转换成一组byte数组，并将转换后的字节数据输出到相应的文件中-->
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<!-- 只保留debug相关的信息 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 过滤掉不是debug level的数据 -->
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch><!-- 匹配就保留下来 -->
+			<onMismatch>DENY</onMismatch><!-- 不是就deny否定掉，也就是过滤掉 -->
+		</filter>
+	</appender>
+	
+	<!-- logger用来存放日志对象 ，告诉logback需要关注哪一个package-->
+	<!-- <logger name="com.imooc.o2o" level="${log.level}" additivity="true" > 这里如果用了additivity="true"
+	，则相当于在logger标签内包含了root标签里面的<appender-ref ref="consoleAppender"/>，继承了root里面的appender，logback执行时除了使用debug，info，error外，
+	还有将日志同时打印到控制台。
+	-->
+	<logger name="com.imooc.o2o" level="${log.level}" additivity="true">
+		<appender-ref ref="debugAppender"/><!-- logger绑定appender -->
+		<appender-ref ref="infoAppender"/>
+		<appender-ref ref="errorAppender"/>
+	</logger>
+	<!-- 默认日志显示的地方，如果没有以上三种，则默认执行root标签 -->
+	<root level="info">
+		<appender-ref ref="consoleAppender"/>
+	</root>
+	
+</configuration>
